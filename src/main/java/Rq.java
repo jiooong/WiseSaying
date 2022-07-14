@@ -1,17 +1,56 @@
+import java.util.HashMap;
+import java.util.Map;
+
 public class Rq {
     String url;
+    String path;
+    //String queryStr;
+    Map<String, String> queryParams;
     public Rq(String url) {
         this.url= url;
+        String[] urlBits = url.split("\\?",2);
+        this.path=urlBits[0];
+
+        queryParams = new HashMap<>();
+        if(urlBits.length ==2){
+            String queryStr=urlBits[1];
+
+            String[] paramBits = queryStr.split("&");
+            for(String paramBit : paramBits){
+                String[] paramNameAndValue = paramBit.split("=",2);
+
+                if(paramNameAndValue.length == 1){
+                    continue;
+
+                }
+                String paramName = paramNameAndValue[0].trim();
+                String paramValue = paramNameAndValue[1].trim();
+
+                queryParams.put(paramName,paramValue);
+
+            }
+        }
+
+
 
     }
     public String getPath(){
-        String[] urlBits = url.split("\\?",2);
-        return urlBits[0];
+        return path;
     }
 
     public int getIntParam(String paramName, int defaultValue) {
-        String[] urlBits = url.split("\\?", 2);
-        urlBits = urlBits[1].split("&");
+        if (queryParams.containsKey(paramName) == false) {
+            return defaultValue;
+        }
+        String paramValue = queryParams.get(paramName);
+        if (paramValue.length() == 0) {
+            return defaultValue;
+        }
+        return Integer.parseInt(queryParams.get(paramName));
+        /*if(queryStr==null){
+            return defaultValue;
+        }
+        String[] urlBits = queryStr.split("&");
 
         for (String urlBit : urlBits) {
             String[] paramNameAndValue = urlBit.split("=", 2);
@@ -22,7 +61,9 @@ public class Rq {
                 return Integer.parseInt(paramValue);
             }
         }
+        */
 
-        return defaultValue;
+
+
     }
 }
