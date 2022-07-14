@@ -21,6 +21,7 @@ public class App {
             String queryStr = cmdBits.length ==2 ? cmdBits[1] : null;
 
             switch(path){
+                case "수정":
 
                 case "목록":
                     show();
