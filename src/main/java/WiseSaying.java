@@ -8,5 +8,13 @@ public class WiseSaying {
         this.author=author;
         this.content=content;
     }
+    @Override
+    public String toString() {
+        return "WiseSaying{" +
+                "id=" + id +
+                ", content='" + content + '\'' +
+                ", author='" + author + '\'' +
+                '}';
+    }
 
 }
